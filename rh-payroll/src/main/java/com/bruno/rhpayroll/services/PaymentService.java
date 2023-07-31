@@ -2,6 +2,7 @@ package com.bruno.rhpayroll.services;
 
 import com.bruno.rhpayroll.entities.Payment;
 import com.bruno.rhpayroll.entities.Worker;
+import com.bruno.rhpayroll.feignclients.WorkerClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,17 +14,11 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class PaymentService {
 
-    @Value("${rh-worker.host}")
-    private String workerHost;
-
-    private final RestTemplate restTemplate;
+    private final WorkerClient workerClient;
 
     public Payment getPayment(Long workerId, int days) {
-        var uriVariables = new HashMap<>();
-        uriVariables.put("id", workerId.toString());
-
-
-        var worker = restTemplate.getForObject(workerHost + "/workers/{id}", Worker.class, uriVariables);
+        var worker = workerClient.findById(workerId).getBody();
+        assert worker != null;
         return new Payment(worker.getName(), worker.getDailyIncome(), days);
     }
 }
