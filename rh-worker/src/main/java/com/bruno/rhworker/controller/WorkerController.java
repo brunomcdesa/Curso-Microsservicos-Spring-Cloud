@@ -21,13 +21,13 @@ public class WorkerController {
 
     @GetMapping
 	public ResponseEntity<List<Worker>> findAll() {
-        List<Worker> lista = workerRepository.findAll();
+        var lista = workerRepository.findAll();
         return ResponseEntity.ok(lista);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Optional<Worker>> findById(@PathVariable Long id) {
-        Optional<Worker> worker = workerRepository.findById(id);
+        var worker = workerRepository.findById(id);
         return ResponseEntity.ok(worker);
     }
 }
