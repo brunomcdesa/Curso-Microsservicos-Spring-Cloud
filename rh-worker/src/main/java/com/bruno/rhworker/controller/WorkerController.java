@@ -3,6 +3,9 @@ package com.bruno.rhworker.controller;
 import com.bruno.rhworker.entities.Worker;
 import com.bruno.rhworker.repositories.WorkerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +18,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value ="/workers")
 @RequiredArgsConstructor
+@Slf4j
 public class WorkerController {
 
     private final WorkerRepository workerRepository;
-
+    private final Environment env;
     @GetMapping
 	public ResponseEntity<List<Worker>> findAll() {
         var lista = workerRepository.findAll();
@@ -26,7 +30,10 @@ public class WorkerController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Optional<Worker>> findById(@PathVariable Long id) {
+    public ResponseEntity<Optional<Worker>> findById(@PathVariable Long id) throws InterruptedException {
+//        Thread.sleep(3000L);
+
+        log.info("PORTA = ".concat(env.getProperty("local.server.port")));
         var worker = workerRepository.findById(id);
         return ResponseEntity.ok(worker);
     }
