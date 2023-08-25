@@ -27,10 +27,15 @@ public class WorkerController {
     private final WorkerRepository workerRepository;
     private final Environment env;
 
+    @Value("${test.config}")
+    private String testConfig;
+
     @GetMapping("configs")
     public ResponseEntity<Void> getConfigs() {
+        log.info("Config = " + testConfig);
         return ResponseEntity.noContent().build();
     }
+
 
     @GetMapping
 	public ResponseEntity<List<Worker>> findAll() {
