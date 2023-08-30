@@ -30,7 +30,9 @@ public class WorkerController {
 
     @GetMapping("configs")
     public ResponseEntity<Void> getConfigs() {
-        //log.info("Config = " + testConfig);
+        //
+        //
+        // log.info("Config = " + testConfig);
         return ResponseEntity.noContent().build();
     }
 
